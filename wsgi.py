@@ -21,12 +21,15 @@ def getPublicationTime(url):
 
 
 def getJsonRepublika():
+    print("get republika")
     web = requests.get("https://republika.co.id/")
+    print("done")
     soup = BeautifulSoup(web.content, 'html.parser')
 
     lastest = soup.find_all('div', {"class": "teaser_conten1_center"})
     lastest_array = []
 
+    print("start loop")
     for last in lastest:
         if last.find('div', {"class": "clear"}) != None:
             continue
@@ -42,6 +45,7 @@ def getJsonRepublika():
 
         lastest_array.append(x)
 
+    print("done")
     return json.dumps(lastest_array)
 
 
@@ -52,7 +56,8 @@ def hello():
 
 @application.route("/api")
 def getJson():
-    return jsonify(getJsonRepublika())
+    json = getJsonRepublika()
+    return jsonify(json)
 
 
 if __name__ == "__main__":
