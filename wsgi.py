@@ -10,14 +10,20 @@ application = Flask(__name__)
 
 
 def getPublicationTime(url):
+    print('getting url : ' + str(url))
     req = requests.get(url)
     sup = BeautifulSoup(req.content, 'html.parser')
 
     raw_time = sup.find('div', {"class": "date_detail"})
-    raw_time = raw_time.text.replace('WIB', '')
-    raw_time = re.sub(' +', ' ', raw_time)
-    raw_time = raw_time.strip()
-    return raw_time
+    print('raw time : ' + str(raw_time))
+    try:
+        raw_time = raw_time.text.replace('WIB', '')
+        raw_time = re.sub(' +', ' ', raw_time)
+        raw_time = raw_time.strip()
+    except:
+        print('errors!')
+    finally:
+        return raw_time
 
 
 def getJsonRepublika():
